@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Kasutaja lisamise skript
+if [ "$(id -u)" -ne 0 ]; then
+        echo 'Kasuta root kasutajat' >&2
+        exit 1
+fi
+
+if [ $# -ne 2 ]; then
+	echo "Kasutusjuhend: $0 kasutajate_fail paroolide_fail"
+else
+	kasutajad=$1
+	paroolid=$2
+	if [ -f $kasutajad -a -r $kasutajad ] && [ -f $paroolid -a -r $paroolid ]; then
+	echo "Failid korras"
+
+	paste -d":" $kasutajad $paroolid >> eyl4.txt
+	for rida in $(cat eyl4.txt)
+	do
+	user=$(echo "$rida" | cut -f1 -d:)
+	useradd $user -m -s /bin/bash 
+	echo "$rida" | chpasswd
+	cat /etc/shadow | grep $user
+	done
+	echo "Kasutajad loodud"
+	rm eyl4.txt
+	fi
+fi
