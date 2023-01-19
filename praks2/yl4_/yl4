@@ -1,0 +1,21 @@
+#!/bin/bash
+userfile=/root/lamp/praks2/yl4_/userlist
+username=$(cat /root/lamp/praks2/yl4_/userlist | tr 'A-Z'  'a-z')
+for user in $username
+passwordfile=/root/lamp/praks2/yl4_/passwdlist
+password=$(cat /root/lamp/praks2/yl4_/passwdlist | tr 'A-Z'  'a-z')
+for password in $password
+do
+       //adding users '$user' is a variable that changes
+       // usernames accordingly in txt file.
+       useradd $user
+       echo $password | passwd --stdin $user
+done
+
+//echo is used to display the total numbers of 
+//users created, counting the names in the txt 
+//file, tail to display the final details of 
+//the process on both lines(optional)
+echo "$(wc -l /tmp/userlist) users have been created" 
+tail -n$(wc -l /tmp userlist) /etc/passwd
+
