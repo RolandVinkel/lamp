@@ -1,0 +1,11 @@
+
+PMA=$(apt list --installed 2>/dev/null | grep -c phpmyadmin)
+if [ $PMA -eq 0 ]; then
+	echo "Paigaldame phpmyadmin ja lisad"
+	apt install phpmyadmin
+	echo "phpmyadmin on paigaldatud"
+elif [ $PMA -eq 1 ]; then
+	echo "phpmyadmin on juba paigaltatud"
+	apt list --installed 2>/dev/null | grep phpmyadmin
+fi
+
