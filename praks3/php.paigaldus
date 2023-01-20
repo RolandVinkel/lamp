@@ -1,0 +1,19 @@
+#php paigaldusskript
+PHP=$(dpkg-query -W -f='${Status}' php 2>/dev/null | grep -c 'ok installed')
+#kui PHP muutuja väärtus võrdub 0-ga
+if [ $PHP -eq 0 ]; then
+	#siis on installed ei ole leitud
+	#ja väljastame vastava teate ning
+	#paigaldame teenuse
+	echo "Paigaldame php ja vajalikud lisad"
+	apt install php libapache2-mod-php php-mysql
+	echo "php on paigaldatud"
+#kui PHP muutuja väärtus võrdub 1-ga
+elif [ $PHP -eq 1 ]; then
+	#siis on ok installed uhe korra leitud
+	echo "php on juba paigaldatud"
+	#kontrollib olemasolevat php
+	witch php
+#lõpetame tingimuslause
+fi
+#skirpti lõpp
